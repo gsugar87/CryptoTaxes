@@ -1,0 +1,6 @@
+credentials.py
+.idea/
+bittrex.py
+FDFs/
+PDFs/
+*.pyc
