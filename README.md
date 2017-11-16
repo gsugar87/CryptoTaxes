@@ -69,4 +69,5 @@ in a new directory called PDFs.
 If you find this code useful, feel free to donate!
 
 BTC: 1LSTU2pNgeZKeD2CiTNPJRgcnhaUAkjpWJ
+
 LTC: Ld6CF6LSy3K2PVpdm7qHbpFTarcVxdzE3L
