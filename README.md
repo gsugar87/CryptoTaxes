@@ -18,7 +18,7 @@ Coinbase Python Library:
 
 fdfgen Python Library:
 
-    pip install fdfgrn
+    pip install fdfgen
 
 Instructions:
 
