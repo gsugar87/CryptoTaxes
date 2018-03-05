@@ -1,6 +1,8 @@
 # CryptoTaxes
-This will fill out IRS form 8949 with Coinbase and GDAX data.  It assumes all short term
-sales and FIFO sales.  This has only been tested on Windows.
+This will fill out IRS form 8949 with Coinbase, GDAX, and Bittrex data.  It assumes all short term
+sales and will use the highest cost buy order for cost basis.  This will lower the amount
+of taxes you will have to pay.  It will make a .txf that you can import into TurboTax, and
+it will fill out the IRF form 8949.  This has only been tested on Windows.
 
 Requirements:
 
@@ -75,7 +77,7 @@ is located in a text box directory under the Permissions area where you checked
     
 When you run this, you will be prompted to enter your full name and then your social security 
 number (these are used only for filling out the tax forms).  The filled out form 8949s will be 
-in a new directory called PDFs.  TurboTax input files will be coming soon!
+in a new directory called PDFs.
 
 If you find this code useful, feel free to donate!
 

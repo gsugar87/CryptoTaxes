@@ -1,8 +1,8 @@
 credentials.py
 .idea/
-bittrex.py
 FDFs/
 PDFs/
 *.pyc
-fullOrders.csv
-save.p
+*.csv
+*.p
+*.txf

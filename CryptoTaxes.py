@@ -5,6 +5,7 @@ import coinbase_reader
 import fill_8949
 import cPickle as pickle
 import os
+import turbo_tax
 
 
 def fix_orders(orders):
@@ -76,7 +77,7 @@ if __name__ == '__main__':
     sells_sorted = sorted(sells_fixed, key=lambda buy_order: buy_order[0])
 
     # Get the full order information to be used on form 8949
-    full_orders = fill_8949.get_cost_basis(sells_sorted, buys_sorted, basis_type='highest')
+    full_orders = fill_8949.get_cost_basis(sells_sorted, buys_sorted, basis_type='highest', tax_year=2017)
 
     # Save the files in a pickle
     #pickle.dump([buys_sorted, sells_sorted, full_orders], open("save.p", "wb"))
@@ -86,4 +87,8 @@ if __name__ == '__main__':
     if not os.path.exists("PDFs"):
         os.makedirs("PDFs")
 
+    # Make the Turbo Tax import file
+    turbo_tax.make_txf(full_orders)
+
+    # Make the 8949 forms
     fill_8949.makePDF(full_orders, "test", myname, ss)
