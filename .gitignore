@@ -4,3 +4,4 @@ bittrex.py
 FDFs/
 PDFs/
 *.pyc
+fullOrders.csv
