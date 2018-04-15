@@ -79,6 +79,9 @@ When you run this, you will be prompted to enter your full name and then your so
 number (these are used only for filling out the tax forms).  The filled out form 8949s will be 
 in a new directory called PDFs.
 
+Legal disclaimer:
+This is not indended to provide tax, legal, or accounting advice. This material has been prepared for informational purposes only, and is not intended to provide, and should not be relied on for, tax, legal or accounting advice. You should consult your own tax, legal and accounting advisors before engaging in any transaction.
+
 If you find this code useful, feel free to donate!
 
 BTC: 1LSTU2pNgeZKeD2CiTNPJRgcnhaUAkjpWJ
