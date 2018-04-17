@@ -1,7 +1,6 @@
-# This will read in gdax transactions
+# This will read in coinbase transactions
 import credentials
 from coinbase.wallet.client import Client
-import GDAX
 import dateutil.parser
 import datetime
 import time
