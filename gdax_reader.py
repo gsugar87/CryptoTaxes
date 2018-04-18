@@ -137,7 +137,7 @@ def get_buys_sells():
     #     elif account['currency'] == 'BTC':
     #         [buys_btc, sells_btc] = get_account_transactions(client, account, ignore_products=['BTC-USD'])
     # return buys_usd+buys_btc, sells_usd+sells_btc
-    return transactions_to_buysells(client, get_all_transactions(client, accounts))
+    return transactions_to_buysells(get_all_transactions(client, accounts))
 
 
 def get_transactions_from_account(client, account):
@@ -169,13 +169,14 @@ def get_all_transactions(client, accounts):
     return transactions
 
 
-def transactions_to_buysells(client, transactions):
+def transactions_to_buysells(transactions):
     buys = []
     sells = []
     order_transactions = []
     current_order_id = ''
     for transaction in transactions:
-        if current_order_id != transaction[3]:
+        # if current_order_id != transaction[3]:
+        if current_order_id != transaction[4]:
             # save the order if it has been created
             if len(order_transactions) > 0:
                 sell_amount = 0
@@ -192,7 +193,7 @@ def transactions_to_buysells(client, transactions):
                             buy_amount += t[2]
                             buy_product = t[1]
                     else:
-                        fee_amount -= t[2]
+                        fee_amount += abs(t[2])
                         fee_product = t[1]
                 if sell_product == fee_product:
                     sell_amount += fee_amount
@@ -200,19 +201,26 @@ def transactions_to_buysells(client, transactions):
                     buy_amount -= fee_amount
                 # an order: [order_time, product, buysell, cost, amount, cost_per_coin, exchange_currency]
                 if buy_product == 'USD':
+                    # We sold a coin for USD
                     sells.append([order_time, sell_product, 'sell', buy_amount, sell_amount, buy_amount/sell_amount,
                                   buy_product])
                 elif sell_product == 'USD':
-                    # do nothing
-                    pass
-                elif buy_product == 'BTC':
-                    sells.append([order_time, sell_product, 'sell', buy_amount, sell_amount, buy_amount/sell_amount,
-                                  buy_product])
-                else:
+                    # We bought a coin using USD
                     buys.append([order_time, buy_product, 'buy', sell_amount, buy_amount, sell_amount/buy_amount,
                                  sell_product])
+                elif buy_product == 'BTC':
+                    # We sold a coin for BTC
+                    sells.append([order_time, sell_product, 'sell', buy_amount, sell_amount, buy_amount/sell_amount,
+                                  buy_product])
+                elif sell_product == 'BTC':
+                    # We bought a coin using BTC
+                    buys.append([order_time, buy_product, 'buy', sell_amount, buy_amount, sell_amount/buy_amount,
+                                 sell_product])
+                else:
+                    print('Unknown trading pair!!! Neither BTC nor USD used in the transaction!')
             order_transactions = [transaction]
-            current_order_id = transaction[3]
+            # current_order_id = transaction[3]
+            current_order_id = transaction[4]
         else:
             # batch the transactions in the order
             order_transactions.append(transaction)

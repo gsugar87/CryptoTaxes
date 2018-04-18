@@ -12,12 +12,12 @@ def is_forked(product):
 
 def get_forked_time(product):
     if product == 'BCH':
-        forked_time = '8/17/2018'
+        forked_time = '8/17/2018 00:00:00 UTC'
     elif product == 'BGD':
-        forked_time = '10/24/2017'
+        forked_time = '10/24/2017 00:00:00 UTC'
     else:
         print('Unknown fork product: ' + product)
-    return forked_time
+    return dateutil.parser.parse(forked_time)
 
 
 def parse_cost_basis_row(row):
@@ -75,7 +75,7 @@ def get_cost_basis(sells_sorted, buys_sorted, basis_type='highest', tax_year=201
                    (buys_sorted[buy_index][4] > 0):
                     cost = buys_sorted[buy_index][5]
                     # See if the max cost is higher
-                    if cost >= max_cost:
+                    if cost > max_cost:
                         max_cost_index = buy_index
                         max_cost = cost
                         max_cost_volume = buys_sorted[buy_index][4]
@@ -96,20 +96,22 @@ def get_cost_basis(sells_sorted, buys_sorted, basis_type='highest', tax_year=201
                 # reduce the buy and sell volumes
                 # Make sure the max_cost_index is not -1 (forked coin airdrop)
                 if max_cost_index >= 0:
-                    bought_time = buys_sorted[max_cost_index][0].strftime('%m/%d/%Y')
+                    bought_time = buys_sorted[max_cost_index][0]
                     buys_sorted[max_cost_index][4] = round(buys_sorted[max_cost_index][4] - cost_basis_volume, 8)
-                    cost_basis_per_coin = cost
+                    #cost_basis_per_coin = cost
+                    cost_basis_per_coin = max_cost
                 else:
                     # This is a forked coin, get the forked date
                     bought_time = get_forked_time(product)
                     cost_basis_per_coin = 0
                 sells_sorted[sell_index][4] = round(sells_sorted[sell_index][4] - cost_basis_volume, 8)
 
-                # Full order [description, date acquired, date sold, proceeds, cost basis, gain/loss]
+                # Full order [description, date acquired, date sold, proceeds, cost basis, gain/loss, datetimebought, datetimesold]
                 full_orders.append(['%1.8f ' % cost_basis_volume + product,
-                                    bought_time,
-                                    sells_sorted[sell_index][0].strftime('%m/%d/%Y'),
+                                    bought_time.strftime('%m/%d/%Y'),
+                                    sell_time.strftime('%m/%d/%Y'),
                                     cost_basis_volume*sells_sorted[sell_index][5],
                                     cost_basis_volume*cost_basis_per_coin,
-                                    cost_basis_volume*(sells_sorted[sell_index][5]-cost_basis_per_coin)])
+                                    cost_basis_volume*(sells_sorted[sell_index][5]-cost_basis_per_coin),
+                                    bought_time, sell_time])
     return full_orders

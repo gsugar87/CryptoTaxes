@@ -163,4 +163,11 @@ if __name__ == '__main__':
         net_cost += o[4]
         net_rev += o[3]
         net_gain += o[5]
+
+    # make a cumulative gain array for debugging purposes
+    # cumulative_gains = []
+    # running_gain = 0
+    # for i in range(len(full_orders)):
+    #     cumulative_gains.append(full_orders[i][5] + running_gain)
+    #     running_gain += full_orders[i][5]
     print('Done! Net Gain: %1.2f, Net Revenue: %1.2f, Net Cost: %1.2f' % (net_gain, net_rev, net_cost))
