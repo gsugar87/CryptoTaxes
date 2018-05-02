@@ -1,4 +1,6 @@
 # CryptoTaxes
+This was the original code that started www.bitcointaxhelper.com
+
 This will fill out IRS form 8949 with Coinbase, GDAX, and Bittrex data.  It assumes all short term
 sales and will use the highest cost buy order for cost basis.  This will lower the amount
 of taxes you will have to pay.  It will make a .txf that you can import into TurboTax, and
